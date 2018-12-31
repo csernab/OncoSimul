@@ -13,6 +13,8 @@ export("oncoSimulPop", "oncoSimulIndiv", "samplePop",
        "sampledGenotypes"
        , "POM", "LOD"
        , "diversityPOM", "diversityLOD"
+       , "plot.oncosimul"
+       ,
        )
 
 S3method(plot, oncosimul)

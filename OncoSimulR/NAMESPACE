@@ -48,7 +48,8 @@ importFrom("data.table", rbindlist, .rbind.data.table)
 importFrom(Rcpp, evalCpp)
 importFrom("igraph", igraph.to.graphNEL, graph.data.frame, V, E,
            "V<-", "E<-", plot.igraph, layout.reingold.tilford,
-           delete.vertices, neighborhood, get.adjacency)
+           delete.vertices, neighborhood, get.adjacency, get.edgelist, graph.adjacency)
+import(ggmuller)
 import(graph)
 import(Rgraphviz)
 importFrom("parallel", mclapply, detectCores, mcMap)
@@ -67,6 +68,7 @@ importFrom("car", "linearHypothesis")
 importFrom("nem", "transitive.reduction")
 ## importFrom("slam", "simple_triplet_zero_matrix", ## "colapply_simple_triplet_matrix",
 ##            "col_sums")
+
 
 
 

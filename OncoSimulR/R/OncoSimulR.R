@@ -1011,6 +1011,9 @@ plot.oncosimul <- function(x,
                            show = "drivers", 
                            type = ifelse(show == "genotypes",
                                          "stacked", "line"),
+                           ##!## En "muller_type" es donde ponemos el tipo de plot de ggmuller que queremos. Por defecto pongo el de frecuencias
+                           ##!## pero si cambiamos el argumento a "population", deberia cambiar el plot como tal. 
+                           muller_type = "frequency",
                            col = "auto",
                            log = ifelse(type == "line", "y", ""),
                            ltyClone = 2:6,
@@ -1042,10 +1045,10 @@ plot.oncosimul <- function(x,
                            ...
                            ) {
 
-
-    if(!(type %in% c("stacked", "stream", "line")))
+ ##!## En esta comprobacion a?adimos nuestro tipo nuevo: el "muller"
+    if(!(type %in% c("stacked", "stream", "line", "muller")))
         stop("Type of plot unknown: it must be one of",
-             "stacked, stream or line")
+             "stacked, stream, line or muller")
 
     if(!(show %in% c("genotypes", "drivers")))
         stop("show must be one of ",
@@ -1100,6 +1103,70 @@ plot.oncosimul <- function(x,
         else
             ylim <- c(0, max(apply(x$pops.by.time[, -1, drop = FALSE], 1, sum)))
     }
+  
+###############################################################################
+ ##!##                             Lo nuestro                             ##!## 
+###############################################################################
+  
+   if(type == "muller") {
+    ##!## Comprobamos la clase del objeto x (que es el output de la simulacion)
+    if (!(class(x) %in% c("oncosimul", "oncosimul2"))) 
+      stop("Type of object class must be one of:", " oncosimul or oncosimul2")
+    
+    if (!(muller_type %in% c("population", "frequency"))) 
+      stop("Type of muller plot unknown: it must be one of", " population or frequency")
+    
+    #Se obtiene la matriz de adyacencia
+    ##!## "matriz_adj" es una matriz de adyacencia con 1s relacionando los clones parentales y los hijos. 
+    dev.new()
+    matriz_adj <- get.adjacency(plotClonePhylog(x, N = 0, returnGraph = TRUE))
+    dev.off()
+    #He dejado lo del WT
+    colnames(matriz_adj)[1] <- "WT"
+    row.names(matriz_adj)[1] <- "WT"
+    
+    #Obtencion de edges
+    ##!## La matriz de adyacencia la transformamos en un formato de grafico de adyacencia (con flechitas) y de ?l tomamos la lista de vertices,
+    ##!## que sera una matriz de dos columnas: izquierda (parentales) y derecha (hijos).
+    lista_edges <- get.edgelist(graph.adjacency(matriz_adj))
+    
+    #Se crea un nuevo dataframe con nombres especificos
+    edges_tmp <- data.frame(Parent = lista_edges[,1], Identity = lista_edges[,2])
+    
+    #Obtencion de los pops 
+    ##!## La funcion de OncoSimulWide2Long(...) nos da un dataframe parecido al que recibe ggmuller, salvo que tiene la columna de Drivers extra.
+    ##!## esta columna Ramon la utiliza para colorear de distinta forma a los clones (los que tengan distinto numero de drivers de distinto
+    ##!## color, etc). 
+    ##!## Esta funcion pone NAs en los tama?os poblacionales donde no haya celulas. Esto no lo acepta ggmuller, asi que luego los cambiamos por
+    ##!## ceros.
+    ltmp <- OncoSimulWide2Long(x)
+    
+    #Se crea un nuevo dataframe con nombres especificos
+    pop_ltmp <- data.frame(Generation = ltmp$Time, Identity = ltmp$Genotype, 
+                           Population = ltmp$Y)
+    
+    #Se sustituyen los NA
+    pop_ltmp[is.na(pop_ltmp)] <- 0
+    
+    #ggmuller crea su archivo 
+    ##!## Le damos a ggmuller los dos dataframes, tanto el de dependencias clonales como el de tiempos y frecuencias poblacionales.
+    ##!## Con ello, ggmuller crea su archivo propio y raruno para luego hacer el plot. 
+    Prueba2_ggmuller <-  ggmuller:::get_Muller_df(edges_tmp, pop_ltmp)
+    
+    #Eleccion de tipo
+    if (muller_type == "frequency"){
+      muller_plot <- ggmuller:::Muller_plot(Prueba2_ggmuller, add_legend = TRUE, xlab = "Generation", ylab = "Proportion")
+    }
+    if (muller_type == "population"){
+      muller_plot <- ggmuller:::Muller_pop_plot(Prueba2_ggmuller, add_legend = TRUE, xlab = "Generation", ylab = "Proportion")
+    }
+    return (muller_plot)
+  }
+  
+  ##########################################################################################################
+  ##!##                                           Hasta aqui                                           ##!##
+  ##########################################################################################################
+ 
     if(plotDiversity) {
         oppd <- par(fig = c(0, 1, 0.8, 1))
         m1 <- par()$mar

@@ -1118,9 +1118,7 @@ plot.oncosimul <- function(x,
     
     #Se obtiene la matriz de adyacencia
     ##!## "matriz_adj" es una matriz de adyacencia con 1s relacionando los clones parentales y los hijos. 
-    dev.new()
     matriz_adj <- get.adjacency(plotClonePhylog(x, N = 0, returnGraph = TRUE))
-    dev.off()
     #He dejado lo del WT
     colnames(matriz_adj)[1] <- "WT"
     row.names(matriz_adj)[1] <- "WT"

@@ -1112,7 +1112,7 @@ plot.oncosimul <- function(x,
    if(type == "muller") {
      
     ##!## Comprobamos la clase del objeto x (que es el output de la simulacion)
-    if (!(class(x) %in% c("oncosimul", "oncosimul2"))) 
+    if (!(class(x)[1] %in% c("oncosimul", "oncosimul2"))) 
       stop("Type of object class must be one of:", " oncosimul or oncosimul2")
 
     ##!## Comprobamos los argumentos de "muller_type", que han de ser o "population" o "frequency"

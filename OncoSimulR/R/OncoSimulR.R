@@ -1011,8 +1011,8 @@ plot.oncosimul <- function(x,
                            show = "drivers", 
                            type = ifelse(show == "genotypes",
                                          "stacked", "line"),
-                           ##!## En "muller_type" es donde ponemos el tipo de plot de ggmuller que queremos. Por defecto pongo el de frecuencias
-                           ##!## pero si cambiamos el argumento a "population", deberia cambiar el plot como tal. 
+                           ##!## En "muller_type" es donde ponemos el tipo de plot de ggmuller que queremos. Por defecto
+                           ##!## esta el de frecuencias, pero utilizando "population" como argumento obtenemos un plot poblacional. 
                            muller_type = "frequency",
                            col = "auto",
                            log = ifelse(type == "line", "y", ""),

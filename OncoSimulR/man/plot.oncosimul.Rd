@@ -127,8 +127,6 @@
     "stacked" for \code{show = "genotypes"}.
     
   }
- 
-  }
 
   \item{muller_type}{One of "frequency", "population".
                      
@@ -136,10 +134,6 @@
   (or relative abundance) at the corresponding time point. If "population",
   plot shows changes in population sizes over time.
                          
-  }
-
-
-
   }
   
   \item{col}{ Colour of the lines/areas. For \code{show = "drivers"}

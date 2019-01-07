@@ -1009,6 +1009,7 @@ plot.oncosimulpop <- function(x, ask = TRUE,
 
 plot.oncosimul <- function(x,
                            show = "drivers", 
+                           ##!## Es aqui, en "type", donde habra que poner "muller" para que funcione nuestra parte
                            type = ifelse(show == "genotypes",
                                          "stacked", "line"),
                            ##!## En "muller_type" es donde ponemos el tipo de plot de ggmuller que queremos. Por defecto

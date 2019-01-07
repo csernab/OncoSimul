@@ -109,7 +109,7 @@
     will be an unmanageable mess). The default is "drivers".
   }
 
-  \item{type}{One of "line", "stacked", "stream".
+  \item{type}{One of "line", "stacked", "stream", "muller".
 
     If "line", you are shown lines for each genotype or clone. This
     means that to get an idea of the total population size you need to
@@ -119,12 +119,28 @@
     If "stacked" a stacked area plot. If "stream" a stream plot. Since
   these stack areas, you immediately get the total population. But that
   also means you cannot use \code{log}.
+              
+    If "muller", a muller plot is show. Descendant genotypes are shown
+  emerging from inside their parents.
 
     The default is to use "line" for \code{show = "drivers"} and
     "stacked" for \code{show = "genotypes"}.
     
   }
-  
+ 
+  }
+
+  \item{muller_type}{One of "frequency", "population".
+                     
+    If "frequency", plot height corresponding to genotype frequency 
+  (or relative abundance) at the corresponding time point. If "population",
+  plot shows changes in population sizes over time.
+                         
+  }
+
+
+
+  }
   
   \item{col}{ Colour of the lines/areas. For \code{show = "drivers"}
     each type of clone (where type is defined by number of drivers) has

@@ -552,10 +552,6 @@ test_that("only recognized arguments", {
   expect_error(OncoSimulR:::plot.oncosimul(tmp, type = ""), 
                "Type of plot unknown: it must be one ofstacked, stream, line or muller", fixed = TRUE)
   
-  expect_error(plot(tmp, show = "sto"),
-               "show must be one of ", fixed = TRUE)
-  expect_error(plot(tmp, breakSortColors = "sto"),
-               "breakSortColors must be one of ", fixed = TRUE)
 })
 
 ##!## Comprobamos que la funcion modificada funciona correctamente con distintos simulaciones aleatorias de tumores 

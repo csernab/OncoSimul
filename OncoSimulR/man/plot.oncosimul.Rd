@@ -365,7 +365,6 @@ tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
                        extraTime = 1500,
                        keepPhylog = TRUE)
          
-par(mfrow = c(1, 2))
 plot.oncosimul(tmp, type = "muller", muller_type = "frequency")
 plot.oncosimul(tmp, type = "muller", muller_type = "population")
 
@@ -373,7 +372,7 @@ plot.oncosimul(tmp, type = "muller", muller_type = "population")
 ## (I set mc.cores = 2 to comply with --as-cran checks, but you
 ##  should either use a reasonable number for your hardware or
 ##  leave it at its default value).
-par(mfrow = c(1, 1))
+
 p1 <- oncoSimulPop(2, p701, mc.cores = 2)
 
 par(mfrow = c(1, 2))

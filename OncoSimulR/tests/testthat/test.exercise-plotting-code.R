@@ -557,7 +557,7 @@ test_that("only recognized arguments", {
 test_that("exercising plot.oncosimul()", {
   ##!## Cargamos la librería con los ejemplos
   data(examplesFitnessEffects)
-  ##!## Creamos dos bucles en los que se prueban 30 distribuciones aleatorias de "tmp"
+  ##!## Creamos dos bucles en los que se prueban 15 distribuciones aleatorias de "tmp"
   for(i in 1:15){ 
     tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
                            model = "McFL", 

@@ -1011,7 +1011,7 @@ plot.oncosimul <- function(x,
                            show = "drivers", 
                            ## We added the new type "muller"
                            type = ifelse(show == "genotypes",
-                                         "stacked", "line", "muller"), 
+                                         "stacked", "line"), 
                            ## New option to choose the frequency or the population plot
                            muller_type = "frequency",
                            col = "auto",

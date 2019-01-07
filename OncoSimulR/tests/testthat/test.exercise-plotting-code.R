@@ -527,6 +527,80 @@ test_that("exercising phylogClone", {
     }
 })
 
+##!## Comprobamos que la funcion modificada acepta solo unos argumentos y no otros
+test_that("only recognized arguments", {
+  data(examplesFitnessEffects)
+  tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
+                         model = "McFL", 
+                         mu = 5e-5,
+                         detectionSize = 1e8, 
+                         detectionDrivers = 3,
+                         sampleEvery = 0.025,
+                         max.num.tries = 10,
+                         keepEvery = 5,
+                         initSize = 2000,
+                         finalTime = 20000,
+                         onlyCancer = FALSE,
+                         extraTime = 1500,
+                         keepPhylog = TRUE)
+  
+  ##!## Al no poner argumentos de "muller_type" cuando especificamos como typo "muller", esperamos un error de argumentos
+  expect_error(OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = ""), 
+               "Type of muller plot unknown: it must be one of population or frequency", fixed = TRUE)
+  
+  ##!## Al no introducir argumento de tipo nos indica el error
+  expect_error(OncoSimulR:::plot.oncosimul(tmp, type = ""), 
+               "Type of plot unknown: it must be one ofstacked, stream, line or muller", fixed = TRUE)
+  
+  expect_error(plot(tmp, show = "sto"),
+               "show must be one of ", fixed = TRUE)
+  expect_error(plot(tmp, breakSortColors = "sto"),
+               "breakSortColors must be one of ", fixed = TRUE)
+})
+
+##!## Comprobamos que la funcion modificada funciona correctamente con distintos simulaciones aleatorias de tumores 
+test_that("exercising plot.oncosimul()", {
+  ##!## Cargamos la librería con los ejemplos
+  data(examplesFitnessEffects)
+  ##!## Creamos dos bucles en los que se prueban 30 distribuciones aleatorias de "tmp"
+  for(i in 1:15){ 
+    tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
+                           model = "McFL", 
+                           mu = 5e-5,
+                           detectionSize = 1e8, 
+                           detectionDrivers = 3,
+                           sampleEvery = 0.025,
+                           max.num.tries = 10,
+                           keepEvery = 5,
+                           initSize = 2000,
+                           finalTime = 3000,
+                           onlyCancer = FALSE,
+                           extraTime = 1500,
+                           keepPhylog = TRUE)
+    
+    ##!## Primero probamos con un plot de frecuencias
+    OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = "frequency")
+  }
+  for(i in 1:15){ 
+    tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
+                           model = "McFL", 
+                           mu = 5e-5,
+                           detectionSize = 1e8, 
+                           detectionDrivers = 3,
+                           sampleEvery = 0.025,
+                           max.num.tries = 10,
+                           keepEvery = 5,
+                           initSize = 2000,
+                           finalTime = 5000,
+                           onlyCancer = FALSE,
+                           extraTime = 1500,
+                           keepPhylog = TRUE)
+    
+    ##!## El segundo test será con un plot de poblaciones
+    OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = "population")
+  }
+})
+
 cat(paste("\n Ending exercise-plotting-code at", date(), "\n"))
 
 cat(paste("  Took ", round(difftime(Sys.time(), inittime, units = "secs"), 2), "\n\n"))

@@ -1,7 +1,7 @@
 inittime <- Sys.time()
 cat(paste("\n Starting exercise-plotting-code at", date()))
 
-## These are all used in the vignette and the help functions but we add
+## These are used in the vignette and the help functions but we add
 ## them here because we want to make sure we exercise the code even if we
 ## just run the test routines.
 
@@ -9,7 +9,7 @@ cat(paste("\n Starting exercise-plotting-code at", date()))
 
 ## RNGkind("Mersenne-Twister") ## be explicit
 
-## Takes about 11 seconds on my laptop
+## Takes 139 seconds on my laptop
 
 test_that("exercising the oncosimul plotting code", {
               data(examplePosets)

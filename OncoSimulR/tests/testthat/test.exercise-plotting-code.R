@@ -544,14 +544,13 @@ test_that("only recognized arguments", {
                          extraTime = 1500,
                          keepPhylog = TRUE)
   
-  ##!## Al no poner argumentos de "muller_type" cuando especificamos como typo "muller", esperamos un error de argumentos
-  expect_error(OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = ""), 
-               "Type of muller plot unknown: it must be one of population or frequency", fixed = TRUE)
-  
-  ##!## Al no introducir argumento de tipo nos indica el error
+  ##!## Al no introducir argumento de tipo de plot deseado esperamos un error:
   expect_error(OncoSimulR:::plot.oncosimul(tmp, type = ""), 
                "Type of plot unknown: it must be one ofstacked, stream, line or muller", fixed = TRUE)
   
+  ##!## Al no poner argumentos de "muller_type" cuando especificamos como typo "muller", de nuevo, esperamos un error:
+  expect_error(OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = ""), 
+               "Type of muller plot unknown: it must be one of population or frequency", fixed = TRUE)  
 })
 
 ##!## Comprobamos que la funcion modificada funciona correctamente con distintos simulaciones aleatorias de tumores 

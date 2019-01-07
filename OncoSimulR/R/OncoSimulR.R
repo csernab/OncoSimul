@@ -1045,7 +1045,7 @@ plot.oncosimul <- function(x,
                            ...
                            ) {
 
- ##!## En esta comprobacion a?adimos nuestro tipo nuevo: el "muller"
+    ##!## En esta comprobacion agregamos nuestro tipo nuevo: el "muller"
     if(!(type %in% c("stacked", "stream", "line", "muller")))
         stop("Type of plot unknown: it must be one of",
              "stacked, stream, line or muller")
@@ -1105,53 +1105,56 @@ plot.oncosimul <- function(x,
     }
   
 ###############################################################################
- ##!##                             Lo nuestro                             ##!## 
+##!##                        Nuevo tipo de plot                           ##!## 
 ###############################################################################
   
    if(type == "muller") {
+     
     ##!## Comprobamos la clase del objeto x (que es el output de la simulacion)
     if (!(class(x) %in% c("oncosimul", "oncosimul2"))) 
       stop("Type of object class must be one of:", " oncosimul or oncosimul2")
-    
+
+    ##!## Comprobamos los argumentos de "muller_type", que han de ser o "population" o "frequency"
     if (!(muller_type %in% c("population", "frequency"))) 
       stop("Type of muller plot unknown: it must be one of", " population or frequency")
     
-    #Se obtiene la matriz de adyacencia
+    ###### Obtencion de la matriz de adyacencia
     ##!## "matriz_adj" es una matriz de adyacencia con 1s relacionando los clones parentales y los hijos. 
+    ##!## Se obtiene a partir de aplicar la funcion plotClonePhylog(...) al objeto "x" y aplicar al resultado
+    ##!## la funcion de obtener adyacencia: get.adjacency(...). 
     matriz_adj <- get.adjacency(plotClonePhylog(x, N = 0, returnGraph = TRUE))
-    #He dejado lo del WT
+    ##!## Cambiamos los nombres del clon parental al formato que acepta ggmuller.
     colnames(matriz_adj)[1] <- "WT"
     row.names(matriz_adj)[1] <- "WT"
     
-    #Obtencion de edges
-    ##!## La matriz de adyacencia la transformamos en un formato de grafico de adyacencia (con flechitas) y de ?l tomamos la lista de vertices,
-    ##!## que sera una matriz de dos columnas: izquierda (parentales) y derecha (hijos).
+    ###### Obtencion de edges
+    ##!## La matriz de adyacencia la transformamos en un formato de grafico de adyacencia (con flechas), del
+    ##!## que tomamos la lista de vertices, que sera una matriz de dos columnas: izquierda (parentales) y derecha (hijos).
     lista_edges <- get.edgelist(graph.adjacency(matriz_adj))
-    
-    #Se crea un nuevo dataframe con nombres especificos
+   
+    ##!## Creamos un nuevo dataframe con los nombres especificos que acepta ggmuller
     edges_tmp <- data.frame(Parent = lista_edges[,1], Identity = lista_edges[,2])
     
-    #Obtencion de los pops 
+    ###### Obtencion de los pops.by.time
     ##!## La funcion de OncoSimulWide2Long(...) nos da un dataframe parecido al que recibe ggmuller, salvo que tiene la columna de Drivers extra.
-    ##!## esta columna Ramon la utiliza para colorear de distinta forma a los clones (los que tengan distinto numero de drivers de distinto
-    ##!## color, etc). 
-    ##!## Esta funcion pone NAs en los tama?os poblacionales donde no haya celulas. Esto no lo acepta ggmuller, asi que luego los cambiamos por
+    ##!## Esta funcion pone NAs en los tamaños poblacionales donde no haya celulas. Esto no lo acepta ggmuller, asi que luego los cambiamos por
     ##!## ceros.
     ltmp <- OncoSimulWide2Long(x)
     
-    #Se crea un nuevo dataframe con nombres especificos
+    ##!## Creamos un nuevo dataframe que contenga las columnas necesarias para ggmuller
     pop_ltmp <- data.frame(Generation = ltmp$Time, Identity = ltmp$Genotype, 
                            Population = ltmp$Y)
     
-    #Se sustituyen los NA
+    ##!## Sustituimos los NAs por 0s. 
     pop_ltmp[is.na(pop_ltmp)] <- 0
     
-    #ggmuller crea su archivo 
+    ###### Interpretacion por ggmuller
     ##!## Le damos a ggmuller los dos dataframes, tanto el de dependencias clonales como el de tiempos y frecuencias poblacionales.
-    ##!## Con ello, ggmuller crea su archivo propio y raruno para luego hacer el plot. 
+    ##!## Con ello, ggmuller crea su archivo propio para luego hacer el plot. 
     Prueba2_ggmuller <-  ggmuller:::get_Muller_df(edges_tmp, pop_ltmp)
     
-    #Eleccion de tipo
+    ###### Plots
+    ##!## Dependiendo de los argumentos introducidos en la funcion, se elige un plot de frecuencias o uno de poblaciones.
     if (muller_type == "frequency"){
       muller_plot <- ggmuller:::Muller_plot(Prueba2_ggmuller, add_legend = TRUE, xlab = "Generation", ylab = "Proportion")
     }

@@ -575,22 +575,6 @@ test_that("exercising plot.oncosimul()", {
     
     ##!## Primero probamos con un plot de frecuencias
     OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = "frequency")
-  }
-  for(i in 1:15){ 
-    tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
-                           model = "McFL", 
-                           mu = 5e-5,
-                           detectionSize = 1e8, 
-                           detectionDrivers = 3,
-                           sampleEvery = 0.025,
-                           max.num.tries = 10,
-                           keepEvery = 5,
-                           initSize = 2000,
-                           finalTime = 5000,
-                           onlyCancer = FALSE,
-                           extraTime = 1500,
-                           keepPhylog = TRUE)
-    
     ##!## El segundo test será con un plot de poblaciones
     OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = "population")
   }

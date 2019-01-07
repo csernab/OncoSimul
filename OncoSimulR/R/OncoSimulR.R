@@ -1009,11 +1009,10 @@ plot.oncosimulpop <- function(x, ask = TRUE,
 
 plot.oncosimul <- function(x,
                            show = "drivers", 
-                           ##!## Es aqui, en "type", donde habra que poner "muller" para que funcione nuestra parte
+                           ## We added the new type "muller"
                            type = ifelse(show == "genotypes",
-                                         "stacked", "line"),
-                           ##!## En "muller_type" es donde ponemos el tipo de plot de ggmuller que queremos. Por defecto
-                           ##!## esta el de frecuencias, pero utilizando "population" como argumento obtenemos un plot poblacional. 
+                                         "stacked", "line", "muller"), 
+                           ## New option to choose the frequency or the population plot
                            muller_type = "frequency",
                            col = "auto",
                            log = ifelse(type == "line", "y", ""),
@@ -1046,7 +1045,7 @@ plot.oncosimul <- function(x,
                            ...
                            ) {
 
-    ##!## En esta comprobacion agregamos nuestro tipo nuevo: el "muller"
+    ## Here in the checkpoint we added "muller" too 
     if(!(type %in% c("stacked", "stream", "line", "muller")))
         stop("Type of plot unknown: it must be one of",
              "stacked, stream, line or muller")
@@ -1106,7 +1105,7 @@ plot.oncosimul <- function(x,
     }
   
 ###############################################################################
-##!##                        Nuevo tipo de plot                           ##!## 
+##!##                        The new plot "muller"                        ##!## 
 ###############################################################################
   
    if(type == "muller") {
@@ -1166,7 +1165,7 @@ plot.oncosimul <- function(x,
   }
   
   ##########################################################################################################
-  ##!##                                           Hasta aqui                                           ##!##
+  ##!##                                            END                                                ##!##
   ##########################################################################################################
  
     if(plotDiversity) {

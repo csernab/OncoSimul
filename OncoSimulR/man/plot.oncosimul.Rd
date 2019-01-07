@@ -120,8 +120,8 @@
   these stack areas, you immediately get the total population. But that
   also means you cannot use \code{log}.
               
-    If "muller", a muller plot is show. Descendant genotypes are shown
-  emerging from inside their parents.
+    If "muller", a muller plot is shown. Descendant genotypes are shown
+  emerging from their parents.
 
     The default is to use "line" for \code{show = "drivers"} and
     "stacked" for \code{show = "genotypes"}.

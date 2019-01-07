@@ -51,7 +51,6 @@ importFrom("igraph", igraph.to.graphNEL, graph.data.frame, V, E,
            delete.vertices, neighborhood, get.adjacency, get.edgelist, graph.adjacency)
 import(ggmuller)
 import(graph)
-import(igraph)
 import(Rgraphviz)
 importFrom("parallel", mclapply, detectCores, mcMap)
 importFrom("gtools", combinations, permutations, mixedorder)

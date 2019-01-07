@@ -9,7 +9,7 @@ cat(paste("\n Starting exercise-plotting-code at", date()))
 
 ## RNGkind("Mersenne-Twister") ## be explicit
 
-## Takes 139 seconds on my laptop
+## Takes 65 seconds on my computer
 
 test_that("exercising the oncosimul plotting code", {
               data(examplePosets)
@@ -527,7 +527,7 @@ test_that("exercising phylogClone", {
     }
 })
 
-##!## Comprobamos que la funcion modificada acepta solo unos argumentos y no otros
+##!## We check the modified function doesn't work with invalid arguments
 test_that("only recognized arguments", {
   data(examplesFitnessEffects)
   tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
@@ -544,20 +544,19 @@ test_that("only recognized arguments", {
                          extraTime = 1500,
                          keepPhylog = TRUE)
   
-  ##!## Al no introducir argumento de tipo de plot deseado esperamos un error:
+  ##!## As the type of plot is not given, an error is expected: 
   expect_error(OncoSimulR:::plot.oncosimul(tmp, type = ""), 
                "Type of plot unknown: it must be one ofstacked, stream, line or muller", fixed = TRUE)
   
-  ##!## Al no poner argumentos de "muller_type" cuando especificamos como typo "muller", de nuevo, esperamos un error:
+  ##!## As the type of muller plot ("muller_type") is not given, an error is expected: 
   expect_error(OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = ""), 
                "Type of muller plot unknown: it must be one of population or frequency", fixed = TRUE)  
 })
 
-##!## Comprobamos que la funcion modificada funciona correctamente con distintos simulaciones aleatorias de tumores 
+##!## We check the modified function works correctly with valid arguments and different tumour simulations
 test_that("exercising plot.oncosimul()", {
-  ##!## Cargamos la librería con los ejemplos
   data(examplesFitnessEffects)
-  ##!## Creamos dos bucles en los que se prueban 15 distribuciones aleatorias de "tmp"
+  ##!## We create a loop in which 15 different tumour simulations are created and tested for the 2 types of muller plots
   for(i in 1:15){ 
     tmp <-  oncoSimulIndiv(examplesFitnessEffects[["o3"]],
                            model = "McFL", 
@@ -573,9 +572,9 @@ test_that("exercising plot.oncosimul()", {
                            extraTime = 1500,
                            keepPhylog = TRUE)
     
-    ##!## Primero probamos con un plot de frecuencias
+    ##!## Firstly, we check the frequency muller plot
     OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = "frequency")
-    ##!## El segundo test será con un plot de poblaciones
+    ##!## Secondly, the population muller plot is checked
     OncoSimulR:::plot.oncosimul(tmp, type = "muller", muller_type = "population")
   }
 })
